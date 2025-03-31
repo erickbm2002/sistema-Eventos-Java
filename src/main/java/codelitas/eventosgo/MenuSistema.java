@@ -10,7 +10,9 @@ menu.menuPrincipal();
 }
  */
     
-    ValidacionUsuario validacionUsuario = new ValidacionUsuario(); 
+    ValidacionUsuario validacionUsuario = new ValidacionUsuario();
+    StringBuilder mensaje = new StringBuilder();
+    private boolean parar = false;
 
     public void menuPrincipal() {
         String[] opcionesMenu = { "Registrar Usuarios", "Crear Evento", "Comprar Entradas", "Mostrar Usuarios",
@@ -21,6 +23,7 @@ menu.menuPrincipal();
         switch (seleccion) {
             case 0:
                 mostrarJOptioneMessage("A ingresado a  Inicio de Sesion");
+                mostrarInicioSesion();
                 break;
             case 1:
                 mostrarJOptioneMessage("A ingresado a crear usuario");
@@ -29,7 +32,30 @@ menu.menuPrincipal();
                 mostrarJOptioneMessage("Cerrando sistema");
                 break;
         }
-        
+
+    }
+    
+    public String mostrarInicioSesion() {
+        MenuSistema menuSistema = new MenuSistema();
+        String contraseniaIngresada = "";
+        mensaje.append("Ingrese el tipo usuario a crear:").append("\n").append("Administrador o Cliente");
+        while (!parar) {
+            String roll = menuSistema.mostrarJOptioneInput(mensaje.toString()).toUpperCase();
+            System.out.println(roll);
+            if (!roll.equals("ADMINISTRADOR") && !roll.equals("CLIENTE")) {
+                menuSistema.mostrarJOptioneMessage("Tipo de usuario ingresado inválido");
+            } else {
+                if (roll.equals("ADMINISTRADOR")) {
+                    System.out.println("Entró en el else");
+                    mensaje.replace(0, mensaje.length(), "Ingrese la clave del ADMINISTRADOR MASTER");
+                    contraseniaIngresada = menuSistema.mostrarJOptioneInput(mensaje.toString());
+                    // Quedamos acá seguir la logica
+
+                }
+                parar = true;
+            }
+        }
+        return contraseniaIngresada;
 
     }
     

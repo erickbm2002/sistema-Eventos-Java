@@ -1,40 +1,52 @@
 package codelitas.eventosgo;
 
-import codelitas.eventosgo.Usuario.RollUsuario;
+import javax.swing.JOptionPane;
 
 class ValidacionUsuario {
-    private boolean parar = false;
+    
     private String claveAdmin = "Admin1234";
-
+    private int intentosClaveAdmin = 1;
     public static void main(String[] args) {
         ValidacionUsuario validacion = new ValidacionUsuario();
-        MenuSistema menuSistema = new MenuSistema();
-        validacion.autorizarCrearAdmin(menuSistema);
-    }
+        validacion.autorizarCrearAdmin(validacion);
+        System.out.println();
 
-    public void autorizarCrearAdmin(MenuSistema menuSistema) {
+        
+    }
+ 
+    public boolean autorizarCrearAdmin(/* String contraseniaIngresada */ ValidacionUsuario validacion) {//RECPRDAR QUE SE VA A RECIBIR LA CONTRASEÑA 
+        boolean acceso = false;
+        System.out.println(this.claveAdmin);
+        if (this.intentosClaveAdmin > 3) {
+            System.out.println("Limite de intentos alcanzados volviendo al menú principal");
+            return false;
+        }  
+        String contraseniaIngresada = JOptionPane.showInputDialog("Ingrese la contraseña");
         //Se crea la logica para valiadr si el usuario puede crear un usuario de tipo ADMIN
-        StringBuilder mensaje = new StringBuilder();
-        Usuario usuario = new Usuario();
-        mensaje.append("Ingrese el tipo usuario a crear:").append("\n").append("Administrador o Cliente");
-        while (!parar) {
-            String roll = menuSistema.mostrarJOptioneInput(mensaje.toString()).toUpperCase();
-            System.out.println(roll);
-            if (!roll.equals("ADMINISTRADOR") && !roll.equals("CLIENTE")) {
-                menuSistema.mostrarJOptioneMessage("Tipo de usuario ingresado inválido");
-            } else {
-                if (roll.equals("ADMINISTRADOR")) {
-                    System.out.println("Entró en el else");
-                    mensaje.replace(0, mensaje.length(), "Ingrese la clave del ADMINISTRADOR MASTER");
-                    menuSistema.mostrarJOptioneInput(mensaje.toString());
-                    //Quedamos acá seguir la logica
+        if (contraseniaIngresada.equals(this.claveAdmin)) {
+            System.out.println("Acceso permitido Ingresando en MODO ADMINISTRADOR");
+            return true;
+        } else {
+            while (this.intentosClaveAdmin <= 3) {
+                System.out.println("Contraseña incorrecta, intente de nuevo \nIntentos disponibles "
+                        + this.intentosClaveAdmin + " de " + "3");
+                validacion.setIntentosClaveAdmin();
+                autorizarCrearAdmin(validacion);
 
-                }
-                parar = true;
             }
+
         }
+        return acceso;
+    
+    }
+
+    public void validarClaveAdmin() {
+
     }
 
 
+    public void setIntentosClaveAdmin() {
+        this.intentosClaveAdmin++;
+    }
     
 }
