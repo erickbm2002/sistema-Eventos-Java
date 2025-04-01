@@ -31,7 +31,7 @@ class ValidacionUsuario {
                 System.out.println("Contraseña incorrecta, intente de nuevo \nIntentos disponibles "
                         + this.intentosClaveAdmin + " de " + "3");
                 validacion.setIntentosClaveAdmin();
-                autorizarCrearAdmin(validacion);
+                //autorizarCrearAdmin(validacion);
 
             }
 
