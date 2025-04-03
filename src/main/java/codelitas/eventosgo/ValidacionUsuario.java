@@ -1,48 +1,42 @@
 package codelitas.eventosgo;
 
-import javax.swing.JOptionPane;
-
 class ValidacionUsuario {
     
     private String claveAdmin = "Admin1234";
     private int intentosClaveAdmin = 1;
-    public static void main(String[] args) {
-        ValidacionUsuario validacion = new ValidacionUsuario();
-        validacion.autorizarCrearAdmin(validacion);
-        System.out.println();
+    int intentosMaximos = 3;
 
-        
-    }
- 
-    public boolean autorizarCrearAdmin(/* String contraseniaIngresada */ ValidacionUsuario validacion) {//RECPRDAR QUE SE VA A RECIBIR LA CONTRASEÑA 
+    //Metodo para validar si el usuario tiene acceso a crear un usuario admin
+    public boolean autorizarCrearAdmin(String contraseniaIngresada, StringBuilder mensaje, MenuSistema menuSistema) {
         boolean acceso = false;
-        System.out.println(this.claveAdmin);
-        if (this.intentosClaveAdmin > 3) {
-            System.out.println("Limite de intentos alcanzados volviendo al menú principal");
-            return false;
-        }  
-        String contraseniaIngresada = JOptionPane.showInputDialog("Ingrese la contraseña");
-        //Se crea la logica para valiadr si el usuario puede crear un usuario de tipo ADMIN
-        if (contraseniaIngresada.equals(this.claveAdmin)) {
-            System.out.println("Acceso permitido Ingresando en MODO ADMINISTRADOR");
+        while (this.intentosClaveAdmin <= 4) {
+            //Se valida si alcanzó el limite de intento para mostrar el mensaje
+            if (this.intentosClaveAdmin > intentosMaximos) {
+                mensaje.append(" Limite de intentos alcanzados volviendo al menú principal\n");
+                menuSistema.mostrarJOptioneMessage(mensaje.toString());
+                return false;
+            }
+            //Si la clave es correcta ingresa al if en caso contrario se vuelve a validar en un total de 3 intentos
+            if (contraseniaIngresada.equals(this.claveAdmin)) {
+            mensaje.replace(0, mensaje.length(), "Acceso validado");
+            menuSistema.mostrarJOptioneMessage(mensaje.toString());
             return true;
         } else {
-            while (this.intentosClaveAdmin <= 3) {
-                System.out.println("Contraseña incorrecta, intente de nuevo \nIntentos disponibles "
-                        + this.intentosClaveAdmin + " de " + "3");
-                validacion.setIntentosClaveAdmin();
-                //autorizarCrearAdmin(validacion);
-
-            }
+            mensaje.replace(0, mensaje.length(), "Contraseña incorrecta, intente de nuevo");
+            mensaje.append("\nIntento ").append(this.intentosClaveAdmin).append(" de ")
+                    .append(this.intentosMaximos);
+            menuSistema.mostrarJOptioneInput(mensaje.toString());
+            this.setIntentosClaveAdmin();
+        }
+            System.out.println(this.intentosClaveAdmin);
 
         }
+        
         return acceso;
+  
+
+    }
     
-    }
-
-    public void validarClaveAdmin() {
-
-    }
 
 
     public void setIntentosClaveAdmin() {
