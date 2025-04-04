@@ -6,12 +6,14 @@ import codelitas.eventosgo.Usuario.RollUsuario;
 public class SistemaEventos {
 
     private ListasSistemaEvento listas;
+    private ControlCreaciones controlCreaciones;
     public Boolean parar = false;
     public StringBuilder datos;
 
     public SistemaEventos() {
         listas = new ListasSistemaEvento();
         datos = new StringBuilder();
+        controlCreaciones = new ControlCreaciones();
     }
 
     
@@ -34,6 +36,8 @@ public class SistemaEventos {
         Usuario usuario = new Usuario(nombre, cedula, correo, GenerarID.generarIDUsuario("USR"), tipoUsuario);
         JOptionPane.showMessageDialog(null, "Usuario " + usuario.getNombre() + " creado exitosamente");
         sistema.parar = false;
+        this.controlCreaciones.setControlUsuarios();
+        System.out.println(this.controlCreaciones.getControlUsuarios());
         return usuario;
     }
    

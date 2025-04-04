@@ -18,17 +18,18 @@ menu.menuPrincipal();
     public void menuPrincipal() {
         String[] opcionesMenu = { "Registrar Usuarios", "Crear Evento", "Comprar Entradas", "Mostrar Usuarios",
                 "Mostar Eventos" };
-        String[] opcionesInicio = { "Iniciar Sesión", "Crear Usuario" };
-        int seleccion = JOptionPane.showOptionDialog(null, "Elige una opción", "EVENTOS GO",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcionesInicio, opcionesInicio[0]);
+        String[] opcionesInicio = { "Crear Usuario", "Iniciar Sesión" };  
         while (!parar) {
+            int seleccion = JOptionPane.showOptionDialog(null, "Elige una opción", "EVENTOS GO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcionesInicio,
+                    opcionesInicio[0]);
             switch (seleccion) {
                 case 0:
-                    mostrarJOptioneMessage("A ingresado a  Inicio de Sesion");
-                    mostrarInicioSesion(validacionUsuario);
+                    mostrarJOptioneMessage("A ingresado a  Crear Usuarios");
+                    mostrarCrearUsuario(validacionUsuario, sistemaEventos);
                     break;
                 case 1:
-                    mostrarJOptioneMessage("A ingresado a crear usuario");
+                    mostrarJOptioneMessage("A ingresado a Iniciar Sesión");
                     break;
                 default:
                     mostrarJOptioneMessage("Cerrando sistema");
@@ -40,7 +41,7 @@ menu.menuPrincipal();
         
     }
     
-    public String mostrarInicioSesion(ValidacionUsuario validacionUsuario) {
+    public String mostrarCrearUsuario(ValidacionUsuario validacionUsuario, SistemaEventos sistemaEventos) {
         MenuSistema menuSistema = new MenuSistema();
         String contraseniaIngresada = "";
         mensaje.append("Ingrese el tipo usuario a crear:").append("\n").append("Administrador o Cliente");
@@ -55,7 +56,7 @@ menu.menuPrincipal();
                     boolean respuestaAcceso = validacionUsuario.autorizarCrearAdmin(contraseniaIngresada, mensaje,
                             menuSistema);
                     if (respuestaAcceso) {
-
+                        sistemaEventos.generarUsuario(sistemaEventos);
                     }
 
                 }
